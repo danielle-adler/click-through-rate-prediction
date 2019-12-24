@@ -29,22 +29,22 @@ We examined two different imputing methods as many of our numeric variables had 
 ## Algorithms Chosen
 We chose logistic regression and decision tree as our main algorithms to predict CTR of the Criteo dataset (0 = "no click" = "failure", 1 = "click" = "success"). 
 
-**Logistic Regression:** 
+### Logistic Regression
 Logistic regression is a method to calculate the probability of a binary result (where the values are 1s or 0s) given some initial values. We calculate logistic regression in terms of "odds": the probability that a particular outcome is a success divided by the probability that it is a failure. We use stochastic gradient descent, where we start at some initial coefficients and calculate initial predictions, then use the errors in those predictions and a learning rate to calculate new coefficients, and repeat until the errors are small enough (according to a pre-defined convergence criteria) or we reach a pre-defined maximum number of iterations. 
 
 With the logistic regression algorithm we tried hypertuning of the elasticNetParam and the regParam. The elasticNetParam mixing parameter is the regularization that takes values in the range of `0, 1`. A parameter of 0 is the L2, ridge regularization penalty, and a parameter of 1 is the L1, lasso regularization penalty. Our model winded up favoring ridge regularization, which indicates that most of our variables impact the model results and have coefficient weights of roughly equal size. The regParam or learning rate is a regularization parameter that takes a value of greater than 0. We saw that in out models a small learning rate making small updates to the model coefficients throughout each iteration performed best
 
-**Decision Tree:** 
+### Decision Tree
 Decision trees are one of the most popular machine learning algorithms, mostly for classification. CART (classification and regression tree) divides the data in homogenous subsets using binary recursive partitions. The most discriminative variable is first selected as the root node to partition the data set into branch nodes. The partitioning is repeated until the nodes are homogenous enough to be the final nodes which are called leaves. Two popular feature selection measures that split the data are the information gain (based on entropy) and gini index.
 
 With the decision tree algorithm we tried hypertuning of the number of bins, depth of the tree, and impurity. The maximum number of bins represents the number of node splits at each layer. The maximum depth represents the maximum depth of each decision tree, or the maximum number of levels of each of those trees. Limiting the depth of the trees helps reduce the number of important features. We have to evaluate a balance between the number of nodes within each layer of the tree and maximum layers of the tree. The impurity criterion in this instance refers to the quality of each node split within our tree. The gini criterion was chosen as the best parameter over the entropy criterion. This measures how often a randomly chosen observation within our training data would be mislabeled.
 
 
 ## Model Implementation and Results
-**Baseline Model:**
+### Baseline Model
 We started out with a baseline model. The goal of our baseline model is to develop a "baseline" threshold for our f1-score; essentially this model represents the f1-score that we would like to beat. We created three different baseline models to cover all potential approaches. Our first baseline model predicts all rows as the majority class of not clicking on the add. The F1 score is 0.86, but we know this is likely to be true with our high amount of class unbalance. Our second baseline model is more balanced and randomly assigns 75% of the predicted values to the majority class of 0, and the other 25% or so of the values to the minority class of 1. The F1 score in this model is 0.73, which is more realistic. Our last baseline model is randomly assigns a 1 or 0 as the prediction. The F1 score in this case is 0.58, which is lower than what we would expect.
 
-**Actual Models:**
+### Actual Models
 Overall, we feel that the models we evaluated appeared to have reasonable F1 scores for initial attempts (at least better than coin flips). For the categorical variables, the weighted value transformations proved to have the best F1 scores on larger datasets, while the high/low binned one-hot encoded transformations led to better performance on smaller datasets. The weighted value transformations had more of an overfitting issue with less data.
 
 For the numeric variables, we observed very little difference between imputing the mean of the column or zeros for all variables. This is likely due to the fact that we are still replacing all null values with one number and that specific number matters less. As a next step, we would leverage the simplicity and performance efficiency of imputing zero, and consider other, more complex imputation methods for further optimizations.
