@@ -53,7 +53,7 @@ Logistic regression performed better than decision trees based on F1 scores. Gen
 
 Within the logistic regression models, parameter hypertuning did not improve F1 scores, and in a couple cases actually reduced them. We hypothesize that this is based on the random variability of the cross-validation folds, given that we only computed three folds per model, but may have also been due to poorly-documented features of the Apache Spark libraries that otherwise decreased performance in our case.
 
-**Log Loss:**
+### Log Loss
 In addition to thinking about the F1 scores for all of our models, we also evaluated the log loss of our models. Log Loss is well used in logistics regression since the prediction function is non-linear as it is a sigmoidal function. While not as frequent some analyst have used log loss in decision trees, which we looked at as well. In both instances the prediction is between 0 and 1 where the model uses probability to make this classification. The average of a single observation log loss's is the log loss of the model and should be minimized.
 
 Pragmatically log loss is a useful tool to identify the best model during tuning. Log loss is convex guranteeing a global minima that will represent the best model. We chose to use the actual data to do a graph but a graph could be imputed with the range between 0 and 1 to show all the hypothetical loss for each prediction (1 or 0). This global minima will intersect.
